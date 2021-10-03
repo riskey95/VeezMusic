@@ -30,7 +30,8 @@ async def handle_user_status(bot, cmd):
     ban_status = await db.get_ban_status(chat_id)
     if ban_status["is_banned"]:
         if (
-            datetime.date.today() - datetime.date.fromisoformat(ban_status["banned_on"])
+            datetime.date.today() -
+            datetime.date.fromisoformat(ban_status["banned_on"])
         ).days > ban_status["ban_duration"]:
             await db.remove_ban(chat_id)
         else:
@@ -71,7 +72,8 @@ async def main_broadcast_handler(m, db):
     all_users = await db.get_all_users()
     broadcast_msg = m.reply_to_message
     while True:
-        broadcast_id = "".join(random.choice(string.ascii_letters) for i in range(3))
+        broadcast_id = "".join(random.choice(
+            string.ascii_letters) for i in range(3))
         if not broadcast_ids.get(broadcast_id):
             break
     out = await m.reply_text(

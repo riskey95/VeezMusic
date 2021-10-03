@@ -20,7 +20,8 @@ MATCH_MD = re.compile(
 
 # regex to find []() links -> hyperlinks/buttons
 LINK_REGEX = re.compile(r"(?<!\\)\[.+?\]\((.*?)\)")
-BTN_URL_REGEX = re.compile(r"(\[([^\[]+?)\]\(buttonurl:(?:/{0,2})(.+?)(:same)?\))")
+BTN_URL_REGEX = re.compile(
+    r"(\[([^\[]+?)\]\(buttonurl:(?:/{0,2})(.+?)(:same)?\))")
 
 
 def button_markdown_parser(msg: Message) -> (str, List):
@@ -55,13 +56,15 @@ def button_markdown_parser(msg: Message) -> (str, List):
             # create a thruple with button label, url, and newline status
             if bool(match.group(4)) and buttons:
                 buttons[-1].append(
-                    InlineKeyboardButton(text=match.group(2), url=match.group(3))
+                    InlineKeyboardButton(
+                        text=match.group(2), url=match.group(3))
                 )
             else:
                 buttons.append(
-                    [InlineKeyboardButton(text=match.group(2), url=match.group(3))]
+                    [InlineKeyboardButton(
+                        text=match.group(2), url=match.group(3))]
                 )
-            note_data += markdown_note[prev : match.start(1)]
+            note_data += markdown_note[prev: match.start(1)]
             prev = match.end(1)
         # if odd, escaped -> move along
         else:

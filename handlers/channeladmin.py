@@ -10,7 +10,8 @@ from helpers.decorators import authorized_users_only, errors
 
 
 @Client.on_message(
-    filters.command(["channelpause", "cpause"]) & filters.group & ~filters.edited
+    filters.command(["channelpause", "cpause"]
+                    ) & filters.group & ~filters.edited
 )
 @errors
 @authorized_users_only
@@ -33,7 +34,8 @@ async def pause(_, message: Message):
 
 
 @Client.on_message(
-    filters.command(["channelresume", "cresume"]) & filters.group & ~filters.edited
+    filters.command(["channelresume", "cresume"]
+                    ) & filters.group & ~filters.edited
 )
 @errors
 @authorized_users_only

@@ -27,7 +27,8 @@ chat_id = None
 
 
 @Client.on_message(
-    filters.command(["channelplaylist", "cplaylist"]) & filters.group & ~filters.edited
+    filters.command(["channelplaylist", "cplaylist"]
+                    ) & filters.group & ~filters.edited
 )
 async def playlist(client, message):
     try:
@@ -101,7 +102,8 @@ def r_ply(type_):
 
 
 @Client.on_message(
-    filters.command(["channelcurrent", "ccurrent"]) & filters.group & ~filters.edited
+    filters.command(["channelcurrent", "ccurrent"]
+                    ) & filters.group & ~filters.edited
 )
 async def ee(client, message):
     try:
@@ -120,7 +122,8 @@ async def ee(client, message):
 
 
 @Client.on_message(
-    filters.command(["channelplayer", "cplayer"]) & filters.group & ~filters.edited
+    filters.command(["channelplayer", "cplayer"]
+                    ) & filters.group & ~filters.edited
 )
 @authorized_users_only
 async def settings(client, message):
@@ -183,7 +186,8 @@ async def p_cb(b, cb):
 
 
 @Client.on_callback_query(
-    filters.regex(pattern=r"^(cplay|cpause|cskip|cleave|cpuse|cresume|cmenu|ccls)$")
+    filters.regex(
+        pattern=r"^(cplay|cpause|cskip|cleave|cpuse|cresume|cmenu|ccls)$")
 )
 @cb_admin_check
 async def m_cb(b, cb):
@@ -305,7 +309,8 @@ async def m_cb(b, cb):
 
                 await cb.message.edit("- No more playlist..\n- Leaving voice chat!")
             else:
-                callsmusic.pytgcalls.change_stream(chet_id, queues.get(chet_id)["file"])
+                callsmusic.pytgcalls.change_stream(
+                    chet_id, queues.get(chet_id)["file"])
                 await cb.answer("Skipped")
                 await cb.message.edit((m_chat, qeue), reply_markup=r_ply(the_data))
                 await cb.message.reply_text(
@@ -409,7 +414,8 @@ async def play(_, message: Message):
         elif message.reply_to_message.caption_entities:
             entities = message.reply_to_message.entities + entities
         urls = [entity for entity in entities if entity.type == "url"]
-        text_links = [entity for entity in entities if entity.type == "text_link"]
+        text_links = [
+            entity for entity in entities if entity.type == "text_link"]
     else:
         urls = None
     if text_links:

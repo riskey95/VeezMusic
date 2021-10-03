@@ -26,12 +26,14 @@ async def _human_time_duration(seconds):
     for unit, div in TIME_DURATION_UNITS:
         amount, seconds = divmod(int(seconds), div)
         if amount > 0:
-            parts.append("{} {}{}".format(amount, unit, "" if amount == 1 else "s"))
+            parts.append("{} {}{}".format(
+                amount, unit, "" if amount == 1 else "s"))
     return ", ".join(parts)
 
 
 @Client.on_message(
-    command(["start", f"start@{BOT_USERNAME}"]) & filters.private & ~filters.edited
+    command(["start", f"start@{BOT_USERNAME}"]
+            ) & filters.private & ~filters.edited
 )
 async def start_(client: Client, message: Message):
     await message.reply_text(
@@ -50,10 +52,12 @@ async def start_(client: Client, message: Message):
                         url=f"https://t.me/{BOT_USERNAME}?startgroup=true",
                     )
                 ],
-                [InlineKeyboardButton("❓ Basic Guide", callback_data="cbhowtouse")],
+                [InlineKeyboardButton(
+                    "❓ Basic Guide", callback_data="cbhowtouse")],
                 [
                     InlineKeyboardButton("📚 Commands", callback_data="cbcmds"),
-                    InlineKeyboardButton("💝 Donate", url=f"https://t.me/{OWNER_NAME}"),
+                    InlineKeyboardButton(
+                        "💝 Donate", url=f"https://t.me/{OWNER_NAME}"),
                 ],
                 [
                     InlineKeyboardButton(
@@ -75,7 +79,8 @@ async def start_(client: Client, message: Message):
 
 
 @Client.on_message(
-    command(["start", f"start@{BOT_USERNAME}"]) & filters.group & ~filters.edited
+    command(["start", f"start@{BOT_USERNAME}"]
+            ) & filters.group & ~filters.edited
 )
 async def start(client: Client, message: Message):
     current_time = datetime.utcnow()
@@ -109,13 +114,15 @@ async def help(client: Client, message: Message):
 
 ⚡ __Powered by {BOT_NAME} A.I__""",
         reply_markup=InlineKeyboardMarkup(
-            [[InlineKeyboardButton(text="❔ HOW TO USE ME", callback_data="cbguide")]]
+            [[InlineKeyboardButton(
+                text="❔ HOW TO USE ME", callback_data="cbguide")]]
         ),
     )
 
 
 @Client.on_message(
-    command(["help", f"help@{BOT_USERNAME}"]) & filters.private & ~filters.edited
+    command(["help", f"help@{BOT_USERNAME}"]
+            ) & filters.private & ~filters.edited
 )
 async def help_(client: Client, message: Message):
     await message.reply_text(
@@ -127,11 +134,14 @@ async def help_(client: Client, message: Message):
         reply_markup=InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("📚 Basic Cmd", callback_data="cbbasic"),
-                    InlineKeyboardButton("📕 Advanced Cmd", callback_data="cbadvanced"),
+                    InlineKeyboardButton(
+                        "📚 Basic Cmd", callback_data="cbbasic"),
+                    InlineKeyboardButton(
+                        "📕 Advanced Cmd", callback_data="cbadvanced"),
                 ],
                 [
-                    InlineKeyboardButton("📘 Admin Cmd", callback_data="cbadmin"),
+                    InlineKeyboardButton(
+                        "📘 Admin Cmd", callback_data="cbadmin"),
                     InlineKeyboardButton("📗 Sudo Cmd", callback_data="cbsudo"),
                 ],
                 [InlineKeyboardButton("📙 Owner Cmd", callback_data="cbowner")],

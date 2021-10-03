@@ -68,14 +68,17 @@ async def controlset(_, message: Message):
             [
                 [
                     InlineKeyboardButton("⏸ pause", callback_data="cbpause"),
-                    InlineKeyboardButton("▶️ resume", callback_data="cbresume"),
+                    InlineKeyboardButton(
+                        "▶️ resume", callback_data="cbresume"),
                 ],
                 [
                     InlineKeyboardButton("⏩ skip", callback_data="cbskip"),
                     InlineKeyboardButton("⏹ end", callback_data="cbend"),
                 ],
-                [InlineKeyboardButton("⛔ anti cmd", callback_data="cbdelcmds")],
-                [InlineKeyboardButton("🛄 group tools", callback_data="cbgtools")],
+                [InlineKeyboardButton(
+                    "⛔ anti cmd", callback_data="cbdelcmds")],
+                [InlineKeyboardButton(
+                    "🛄 group tools", callback_data="cbgtools")],
                 [InlineKeyboardButton("🗑 Close", callback_data="close")],
             ]
         ),
@@ -145,7 +148,8 @@ async def skip(_, message: Message):
         if queues.is_empty(chat_id):
             callsmusic.pytgcalls.leave_group_call(chat_id)
         else:
-            callsmusic.pytgcalls.change_stream(chat_id, queues.get(chat_id)["file"])
+            callsmusic.pytgcalls.change_stream(
+                chat_id, queues.get(chat_id)["file"])
 
     qeue = que.get(chat_id)
     if qeue:
@@ -280,7 +284,8 @@ async def cbskip(_, query: CallbackQuery):
             callsmusic.pytgcalls.leave_group_call(query.message.chat.id)
         else:
             callsmusic.pytgcalls.change_stream(
-                query.message.chat.id, queues.get(query.message.chat.id)["file"]
+                query.message.chat.id, queues.get(
+                    query.message.chat.id)["file"]
             )
 
     qeue = que.get(chat_id)

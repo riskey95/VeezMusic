@@ -97,7 +97,8 @@ async def bye(client, message):
 
 
 @Client.on_message(
-    command(["userbotjoinchannel", "ubjoinc"]) & ~filters.private & ~filters.bot
+    command(["userbotjoinchannel", "ubjoinc"]
+            ) & ~filters.private & ~filters.bot
 )
 @authorized_users_only
 @errors

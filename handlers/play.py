@@ -109,7 +109,8 @@ async def generate_cover(title, thumbnail):
 
 
 @Client.on_message(
-    command(["playlist", f"playlist@{BOT_USERNAME}"]) & filters.group & ~filters.edited
+    command(["playlist", f"playlist@{BOT_USERNAME}"]
+            ) & filters.group & ~filters.edited
 )
 async def playlist(client, message):
     global que
@@ -176,7 +177,8 @@ def r_ply(type_):
 
 
 @Client.on_message(
-    command(["player", f"player@{BOT_USERNAME}"]) & filters.group & ~filters.edited
+    command(["player", f"player@{BOT_USERNAME}"]
+            ) & filters.group & ~filters.edited
 )
 @authorized_users_only
 async def settings(client, message):
@@ -498,7 +500,8 @@ async def play(_, message: Message):
         elif message.reply_to_message.caption_entities:
             entities = message.reply_to_message.entities + entities
         urls = [entity for entity in entities if entity.type == "url"]
-        text_links = [entity for entity in entities if entity.type == "text_link"]
+        text_links = [
+            entity for entity in entities if entity.type == "text_link"]
     else:
         urls = None
     if text_links:
@@ -631,7 +634,8 @@ async def play(_, message: Message):
                             "5️⃣", callback_data=f"plll 4|{query}|{user_id}"
                         ),
                     ],
-                    [InlineKeyboardButton(text="🗑 Close", callback_data="cls")],
+                    [InlineKeyboardButton(
+                        text="🗑 Close", callback_data="cls")],
                 ]
             )
             await message.reply_photo(
@@ -777,7 +781,8 @@ async def lol_cb(b, cb):
                 InlineKeyboardButton("🖱 ᴍᴇɴᴜ", callback_data="menu"),
                 InlineKeyboardButton("🗑 ᴄʟᴏsᴇ", callback_data="cls"),
             ],
-            [InlineKeyboardButton("📣 ᴄʜᴀɴɴᴇʟ", url=f"https://t.me/{UPDATES_CHANNEL}")],
+            [InlineKeyboardButton(
+                "📣 ᴄʜᴀɴɴᴇʟ", url=f"https://t.me/{UPDATES_CHANNEL}")],
         ]
     )
     await generate_cover(title, thumbnail)
@@ -935,7 +940,8 @@ async def ytplay(_, message: Message):
                 InlineKeyboardButton(
                     "📣 ᴄʜᴀɴɴᴇʟ", url=f"https://t.me/{UPDATES_CHANNEL}"
                 ),
-                InlineKeyboardButton("✨ ɢʀᴏᴜᴘ", url=f"https://t.me/{GROUP_SUPPORT}"),
+                InlineKeyboardButton(
+                    "✨ ɢʀᴏᴜᴘ", url=f"https://t.me/{GROUP_SUPPORT}"),
             ],
         ]
     )

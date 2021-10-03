@@ -14,10 +14,14 @@ admins = {}
 SESSION_NAME = getenv("SESSION_NAME", "session")
 BOT_TOKEN = getenv("BOT_TOKEN")
 BOT_NAME = getenv("BOT_NAME", "Veez Music")
-BG_IMAGE = getenv("BG_IMAGE", "https://telegra.ph/file/20147c4f049e2c1f2f248.png")
-THUMB_IMG = getenv("THUMB_IMG", "https://telegra.ph/file/16ac692fb20e4e08c9b99.png")
-AUD_IMG = getenv("AUD_IMG", "https://telegra.ph/file/73e10ed6e2bd32b478de6.png")
-QUE_IMG = getenv("QUE_IMG", "https://telegra.ph/file/b95c13eef1ebd14dbb458.png")
+BG_IMAGE = getenv(
+    "BG_IMAGE", "https://telegra.ph/file/20147c4f049e2c1f2f248.png")
+THUMB_IMG = getenv(
+    "THUMB_IMG", "https://telegra.ph/file/16ac692fb20e4e08c9b99.png")
+AUD_IMG = getenv(
+    "AUD_IMG", "https://telegra.ph/file/73e10ed6e2bd32b478de6.png")
+QUE_IMG = getenv(
+    "QUE_IMG", "https://telegra.ph/file/b95c13eef1ebd14dbb458.png")
 API_ID = int(getenv("API_ID"))
 API_HASH = getenv("API_HASH")
 BOT_USERNAME = getenv("BOT_USERNAME", "veezmusicbot")

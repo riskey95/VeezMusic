@@ -555,6 +555,7 @@ async def play(_, message: Message):
             # print(results)
             title = results[0]["title"][:60]
             thumbnail = results[0]["thumbnails"][0]
+            title = title.replace('/','').replace('"','')
             thumb_name = f"thumb-{title}-veezmusic.jpg"
             thumb = requests.get(thumbnail, allow_redirects=True)
             open(thumb_name, "wb").write(thumb.content)
@@ -655,6 +656,7 @@ async def play(_, message: Message):
                 url = f"https://youtube.com{results[0]['url_suffix']}"
                 title = results[0]["title"][:60]
                 thumbnail = results[0]["thumbnails"][0]
+                title = title.replace('/','').replace('"','')
                 thumb_name = f"thumb-{title}-veezmusic.jpg"
                 thumb = requests.get(thumbnail, allow_redirects=True)
                 open(thumb_name, "wb").write(thumb.content)
@@ -768,6 +770,7 @@ async def lol_cb(b, cb):
     except:
         pass
     try:
+        title = title.replace('/','').replace('"','')
         thumb_name = f"thumb-{title}-veezmusic.jpg"
         thumb = requests.get(thumbnail, allow_redirects=True)
         open(thumb_name, "wb").write(thumb.content)
@@ -904,6 +907,7 @@ async def ytplay(_, message: Message):
         # print(results)
         title = results[0]["title"][:60]
         thumbnail = results[0]["thumbnails"][0]
+        title = title.replace('/','').replace('"','')
         thumb_name = f"thumb-{title}-veezmusic.jpg"
         thumb = requests.get(thumbnail, allow_redirects=True)
         open(thumb_name, "wb").write(thumb.content)

@@ -92,9 +92,9 @@ async def generate_cover(title, thumbnail):
     img = Image.open("temp.png")
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype("etc/Roboto-Medium.ttf", 60)
-    font2 = ImageFont.truetype("etc/finalfont.ttf", 70)
-    draw.text((25, 545), "Playing here...", (0, 0, 0), font=font)
-    draw.text((25, 630), f"{title[:25]}...", (0, 0, 0), font=font2)
+    font2 = ImageFont.truetype("etc/finalfont.ttf", 75)
+    draw.text((25, 535), "Playing here...", (0, 0, 0), font=font)
+    draw.text((25, 620), f"{title[:25]}...", (0, 0, 0), font=font2)
     img.save("final.png")
     os.remove("temp.png")
     os.remove("background.png")
@@ -140,7 +140,7 @@ def updated_stats(chat, queue, vol=100):
             stats += "🎚 volume: {}%\n".format(vol)
             stats += "🎵 song played: `{}`\n".format(len(que))
             stats += "💡 now playing: **{}**\n".format(queue[0][0])
-            stats += "🎧 request by: {}".format(queue[0][1].mention)
+            stats += "🎧 request by: {}".format(queue[0][1].mention(style="md"))
     else:
         stats = None
     return stats
@@ -174,6 +174,7 @@ def r_ply(type_):
 )
 @authorized_users_only
 async def settings(client, message):
+    global que
     playing = None
     if message.chat.id in callsmusic.pytgcalls.active_calls:
         playing = True
@@ -214,22 +215,22 @@ async def music_onoff(_, message):
     if status == "ON" or status == "on" or status == "On":
         lel = await message.reply("`processing...`")
         if not message.chat.id in DISABLED_GROUPS:
-            await lel.edit("**music player already activated.**")
+            await lel.edit("» **music player already turned on.**")
             return
         DISABLED_GROUPS.remove(message.chat.id)
         await lel.edit(
-            f"✅ **music player has been activated in this chat.**\n\n💬 `{message.chat.id}`"
+            f"✅ **music player turned on**\n\n💬 `{message.chat.id}`"
         )
 
     elif status == "OFF" or status == "off" or status == "Off":
         lel = await message.reply("`processing...`")
 
         if message.chat.id in DISABLED_GROUPS:
-            await lel.edit("**music player already deactivated.**")
+            await lel.edit("» **music player already turned off.**")
             return
         DISABLED_GROUPS.append(message.chat.id)
         await lel.edit(
-            f"✅ **music player has been deactivated in this chat.**\n\n💬 `{message.chat.id}`"
+            f"✅ **music player turned off**\n\n💬 `{message.chat.id}`"
         )
     else:
         await message.reply_text(
@@ -320,7 +321,7 @@ async def m_cb(b, cb):
     elif type_ == "playlist":
         queue = que.get(cb.message.chat.id)
         if not queue:
-            await cb.message.edit("nothing in streaming !")
+            await cb.message.edit("❌ **no music is currently playing**")
         temp = []
         for t in queue:
             temp.append(t)
@@ -407,7 +408,7 @@ async def m_cb(b, cb):
                 await cb.answer("skipped")
                 await cb.message.edit((m_chat, qeue), reply_markup=r_ply(the_data))
                 await cb.message.reply_text(
-                    f"⫸ skipped track\n⫸ now playing : **{qeue[0][0]}**"
+                    "⏭ **You've skipped to the next song.**"
                 )
 
     elif type_ == "leave":
@@ -478,7 +479,7 @@ async def play(_, message: Message):
         await USER.get_chat(chid)
     except:
         await lel.edit(
-            f"» **userbot was banned in this group !**\n\n**ask admin to unban @{ASSISTANT_NAME} and added again to this group manually."
+            f"» **userbot was banned in this group !**\n\n**unban @{ASSISTANT_NAME} and added again to this group manually."
         )
         return
     text_links = None
@@ -554,13 +555,6 @@ async def play(_, message: Message):
             )
             print(str(e))
             return
-        patch - 8
-        dlurl = url
-        dlurl = dlurl.replace("youtube", "youtubepp")
-
-        dlurl = url
-        dlurl = dlurl.replace("youtube", "youtubepp")
-        main
         keyboard = InlineKeyboardMarkup(
             [
                 [
@@ -652,8 +646,6 @@ async def play(_, message: Message):
                 )
                 print(str(e))
                 return
-            dlurl = url
-            dlurl = dlurl.replace("youtube", "youtubepp")
             keyboard = InlineKeyboardMarkup(
                 [
                     [
@@ -756,8 +748,6 @@ async def lol_cb(b, cb):
     except Exception as e:
         print(e)
         return
-    dlurl = url
-    dlurl = dlurl.replace("youtube", "youtubepp")
     keyboard = InlineKeyboardMarkup(
         [
             [
@@ -816,7 +806,7 @@ async def ytplay(_, message: Message):
     global que
     if message.chat.id in DISABLED_GROUPS:
         return
-    lel = await message.reply("🔎 **Searching...**")
+    lel = await message.reply("🔎 **searching...**")
     administrators = await get_administrators(message.chat)
     chid = message.chat.id
 
@@ -851,7 +841,7 @@ async def ytplay(_, message: Message):
                         "🤖: i'm joined to this group for playing music in voice chat",
                     )
                     await lel.edit(
-                        f"✅ **userbot succesfully joined chat.**",
+                        f"✅ **userbot succesfully joined chat**",
                     )
 
                 except UserAlreadyParticipant:
@@ -859,14 +849,14 @@ async def ytplay(_, message: Message):
                 except Exception:
                     # print(e)
                     await lel.edit(
-                        f"🔴 **Flood Wait Error** 🔴 \n\n**{user.first_name} can't join this group due to many join requests for userbot.**"
+                        f"🔴 **Flood Wait Error** 🔴 \n\n**userbot can't join this group due to many join requests for userbot.**"
                         f"\n\n**or add @{ASSISTANT_NAME} to this group manually then try again.**",
                     )
     try:
         await USER.get_chat(chid)
     except:
         await lel.edit(
-            f"💡 **userbot was banned in this group !** \n\n**ask admin to unban @{ASSISTANT_NAME} and add to this group again manually.**"
+            f"💡 **userbot was banned in this group !** \n\n**unban @{ASSISTANT_NAME} and add to this group again manually.**"
         )
         return
 
@@ -877,7 +867,7 @@ async def ytplay(_, message: Message):
     for i in message.command[1:]:
         query += " " + str(i)
     print(query)
-    await lel.edit("🔄 **connecting to vcg...**")
+    await lel.edit("🔄 **connecting to vc...**")
     ydl_opts = {"format": "bestaudio/best"}
     try:
         results = YoutubeSearch(query, max_results=1).to_dict()
@@ -911,8 +901,6 @@ async def ytplay(_, message: Message):
             return
     except:
         pass
-    dlurl = url
-    dlurl = dlurl.replace("youtube", "youtubepp")
     keyboard = InlineKeyboardMarkup(
         [
             [

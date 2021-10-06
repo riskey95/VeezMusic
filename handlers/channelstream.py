@@ -35,7 +35,7 @@ async def playlist(client, message):
         lel = await client.get_chat(message.chat.id)
         lol = lel.linked_chat.id
     except:
-        message.reply("is this chat even linked?")
+        message.reply("❌ `NOT_LINKED`\n\n• **The userbot could not play music, due to group not linked to channel yet.**")
         return
     global que
     queue = que.get(lol)
@@ -93,9 +93,9 @@ def r_ply(type_):
                 InlineKeyboardButton("⏭", "cskip"),
             ],
             [
-                InlineKeyboardButton("Playlist 📖", "cplaylist"),
+                InlineKeyboardButton("📖 PLAY-LIST", "cplaylist"),
             ],
-            [InlineKeyboardButton("❌ Close", "ccls")],
+            [InlineKeyboardButton("🗑 Close", "ccls")],
         ]
     )
     return mar
@@ -111,7 +111,7 @@ async def ee(client, message):
         lol = lel.linked_chat.id
         conv = lel.linked_chat
     except:
-        await message.reply("is this chat even linked")
+        await message.reply("❌ `NOT_LINKED`\n\n• **The userbot could not play music, due to group not linked to channel yet.**")
         return
     queue = que.get(lol)
     stats = updated_stats(conv, queue)
@@ -133,7 +133,7 @@ async def settings(client, message):
         lol = lel.linked_chat.id
         conv = lel.linked_chat
     except:
-        await message.reply("is this chat even linked")
+        await message.reply("❌ `NOT_LINKED`\n\n• **The userbot could not play music, due to group not linked to channel yet.**")
         return
     queue = que.get(lol)
     stats = updated_stats(conv, queue)
@@ -290,9 +290,9 @@ async def m_cb(b, cb):
                     InlineKeyboardButton("⏭", "cskip"),
                 ],
                 [
-                    InlineKeyboardButton("Playlist 📖", "cplaylist"),
+                    InlineKeyboardButton("📖 PLAY-LIST", "cplaylist"),
                 ],
-                [InlineKeyboardButton("❌ Close", "ccls")],
+                [InlineKeyboardButton("🗑 Close", "ccls")],
             ]
         )
         await cb.message.edit(stats, reply_markup=marr)
@@ -307,14 +307,14 @@ async def m_cb(b, cb):
             if queues.is_empty(chet_id):
                 callsmusic.pytgcalls.leave_group_call(chet_id)
 
-                await cb.message.edit("- No more playlist..\n- Leaving voice chat!")
+                await cb.message.edit("» no more playlist\n» userbot leaving voice chat !")
             else:
                 callsmusic.pytgcalls.change_stream(
                     chet_id, queues.get(chet_id)["file"])
                 await cb.answer("Skipped")
                 await cb.message.edit((m_chat, qeue), reply_markup=r_ply(the_data))
                 await cb.message.reply_text(
-                    f"- Skipped track\n- Now playing **{qeue[0][0]}**"
+                    "⏭ **You've skipped to the next song.**"
                 )
 
     else:
@@ -336,7 +336,7 @@ async def m_cb(b, cb):
 @authorized_users_only
 async def play(_, message: Message):
     global que
-    lel = await message.reply("🔄 **processing...**")
+    lel = await message.reply("🔎 **Searching...**")
 
     try:
         conchat = await _.get_chat(message.chat.id)
@@ -344,12 +344,12 @@ async def play(_, message: Message):
         conid = conchat.linked_chat.id
         chid = conid
     except:
-        await message.reply("is this chat even linked ?")
+        await message.reply("❌ `NOT_LINKED`\n\n• **The userbot could not play music, due to group not linked to channel yet.**")
         return
     try:
         administrators = await get_administrators(conv)
     except:
-        await message.reply("i'm not admin in this channel, sorry !")
+        await message.reply("i'm not admin in the channel, sorry !")
     try:
         user = await USER.get_me()
     except:
@@ -364,21 +364,21 @@ async def play(_, message: Message):
             if administrator == message.from_user.id:
                 if message.chat.title.startswith("Channel Music: "):
                     await lel.edit(
-                        "<b>Remember to add helper to your channel</b>",
+                        "💡 please add userbot to channel first",
                     )
 
                 try:
                     invitelink = await _.export_chat_invite_link(chid)
                 except:
                     await lel.edit(
-                        "<b>Add me as admin of yor channel  first</b>",
+                        "💡 promote me as admin first !",
                     )
                     return
 
                 try:
                     await USER.join_chat(invitelink)
                     await lel.edit(
-                        "<b>helper userbot joined your channel</b>",
+                        "✅ **userbot succesfully joined chat**",
                     )
 
                 except UserAlreadyParticipant:
@@ -394,13 +394,12 @@ async def play(_, message: Message):
         # lmoa = await client.get_chat_member(chid,wew)
     except:
         await lel.edit(
-            f"<i> {user.first_name} Userbot not in this chat, Ask channel admin to send /play command for first time or add {user.first_name} manually</i>"
+            f"❌ `NOT_IN_GROUP`\n\n» **The userbot not in this group, bot can't play music.**"
         )
         return
     message.from_user.id
     text_links = None
     message.from_user.first_name
-    await lel.edit("🔎 **finding...**")
     message.from_user.id
     user_id = message.from_user.id
     message.from_user.first_name
@@ -428,17 +427,17 @@ async def play(_, message: Message):
     if audio:
         if round(audio.duration / 60) > DURATION_LIMIT:
             raise DurationLimitError(
-                f"❌ Videos longer than {DURATION_LIMIT} minute(s) aren't allowed to play!"
+                f"❌ music with duration more than `{DURATION_LIMIT}` minutes can't play."
             )
         keyboard = InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("⏺ Menu", callback_data="cmenu"),
+                    InlineKeyboardButton("🖱 Menu", callback_data="cmenu"),
                     InlineKeyboardButton("🗑 Close", callback_data="ccls"),
                 ],
                 [
                     InlineKeyboardButton(
-                        text="🎧 CHANNEL", url=f"https://t.me/{updateschannel}"
+                        text="📣 Channel", url=f"https://t.me/{updateschannel}"
                     )
                 ],
             ]
@@ -457,15 +456,14 @@ async def play(_, message: Message):
         )
     elif urls:
         query = toxt
-        await lel.edit("🎵 **processing...**")
         ydl_opts = {"format": "bestaudio/best"}
         try:
             results = YoutubeSearch(query, max_results=1).to_dict()
             url = f"https://youtube.com{results[0]['url_suffix']}"
             # print(results)
-            title = results[0]["title"][:40]
+            title = results[0]["title"][:60]
             thumbnail = results[0]["thumbnails"][0]
-            thumb_name = f"thumb{title}.jpg"
+            thumb_name = f"thumb-{title}-veezmusic.jpg"
             thumb = requests.get(thumbnail, allow_redirects=True)
             open(thumb_name, "wb").write(thumb.content)
             results[0]["duration"]
@@ -473,7 +471,7 @@ async def play(_, message: Message):
             results[0]["views"]
 
         except Exception as e:
-            await lel.edit("❗ song not found, please give a valid song name.")
+            await lel.edit("😕 **couldn't find song you requested**\n\n» **please provide the correct song name or include the artist's name as well**")
             print(str(e))
             return
         dlurl = url
@@ -481,12 +479,12 @@ async def play(_, message: Message):
         keyboard = InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("⏺ Menu", callback_data="cmenu"),
+                    InlineKeyboardButton("🖱 Menu", callback_data="cmenu"),
                     InlineKeyboardButton("🗑 Close", callback_data="ccls"),
                 ],
                 [
                     InlineKeyboardButton(
-                        "🎧 CHANNEL", url=f"https://t.me/{updateschannel}"
+                        "📣 Channel", url=f"https://t.me/{updateschannel}"
                     )
                 ],
             ]
@@ -499,15 +497,14 @@ async def play(_, message: Message):
         for i in message.command[1:]:
             query += " " + str(i)
         print(query)
-        await lel.edit("🎵 **processing...**")
         ydl_opts = {"format": "bestaudio/best"}
         try:
             results = YoutubeSearch(query, max_results=1).to_dict()
             url = f"https://youtube.com{results[0]['url_suffix']}"
             # print(results)
-            title = results[0]["title"][:40]
+            title = results[0]["title"][:60]
             thumbnail = results[0]["thumbnails"][0]
-            thumb_name = f"thumb{title}.jpg"
+            thumb_name = f"thumb-{title}-veezmusic.jpg"
             thumb = requests.get(thumbnail, allow_redirects=True)
             open(thumb_name, "wb").write(thumb.content)
             results[0]["duration"]
@@ -515,7 +512,7 @@ async def play(_, message: Message):
             results[0]["views"]
 
         except Exception as e:
-            await lel.edit("❗ song not found, please give a valid song name")
+            await lel.edit("😕 **couldn't find song you requested**\n\n» **please provide the correct song name or include the artist's name as well**")
             print(str(e))
             return
 
@@ -524,12 +521,12 @@ async def play(_, message: Message):
         keyboard = InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("⏺ Menu", callback_data="cmenu"),
+                    InlineKeyboardButton("🖱 Menu", callback_data="cmenu"),
                     InlineKeyboardButton("🗑 Close", callback_data="ccls"),
                 ],
                 [
                     InlineKeyboardButton(
-                        "🎧 CHANNEL", url=f"https://t.me/{updateschannel}"
+                        "📣 Channel", url=f"https://t.me/{updateschannel}"
                     )
                 ],
             ]
@@ -548,7 +545,7 @@ async def play(_, message: Message):
         qeue.append(appendable)
         await message.reply_photo(
             photo="final.png",
-            caption=f"#⃣  your requested song **queued** at position {position}!",
+            caption=f"💡 **Track added to queue »** `{position}`\n\n🏷 **Name:** [{title[:35]}...]({url})\n⏱ **Duration:** `{duration}`\n🎧 **Request by:** {message.from_user.mention}",
             reply_markup=keyboard,
         )
         os.remove("final.png")
@@ -565,10 +562,9 @@ async def play(_, message: Message):
         callsmusic.pytgcalls.join_group_call(chat_id, file_path)
         await message.reply_photo(
             photo="final.png",
+            caption=f"🏷 **Name:** [{title[:60]}]({url})\n⏱ **Duration:** `{duration}`\n💡 **Status:** `Playing`\n"
+            + f"🎧 **Request by:** {message.from_user.mention}",
             reply_markup=keyboard,
-            caption="🎧 **playing** the song requested by {} via youtube music, in linked channel".format(
-                message.from_user.mention()
-            ),
         )
         os.remove("final.png")
         return await lel.delete()

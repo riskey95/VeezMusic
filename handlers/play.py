@@ -18,16 +18,7 @@ from cache.admins import admins as a
 from callsmusic import callsmusic
 from callsmusic.callsmusic import client as USER
 from callsmusic.queues import queues
-from config import (
-    ASSISTANT_NAME,
-    BOT_NAME,
-    BOT_USERNAME,
-    DURATION_LIMIT,
-    GROUP_SUPPORT,
-    THUMB_IMG,
-    UPDATES_CHANNEL,
-    que,
-)
+from config import ASSISTANT_NAME, BOT_NAME, BOT_USERNAME, DURATION_LIMIT, THUMB_IMG, que
 from downloaders import youtube
 from helpers.admins import get_administrators
 from helpers.channelmusic import get_chat_id
@@ -296,7 +287,7 @@ async def m_cb(b, cb):
     cb.message.chat.id
     m_chat = cb.message.chat
 
-    the_data = cb.message.reply_markup.inline_keyboard[1][0].callback_data
+    the_data = cb.message.reply_markup.inline_keyboard[0][0].callback_data
     if type_ == "pause":
         if (chet_id not in callsmusic.pytgcalls.active_calls) or (
             callsmusic.pytgcalls.active_calls[chet_id] == "paused"
@@ -526,11 +517,6 @@ async def play(_, message: Message):
                     InlineKeyboardButton("🖱 ᴍᴇɴᴜ", callback_data="menu"),
                     InlineKeyboardButton("🗑 ᴄʟᴏsᴇ", callback_data="cls"),
                 ],
-                [
-                    InlineKeyboardButton(
-                        "📣 ᴄʜᴀɴɴᴇʟ", url=f"https://t.me/{UPDATES_CHANNEL}"
-                    )
-                ],
             ]
         )
         file_name = get_file_name(audio)
@@ -580,11 +566,6 @@ async def play(_, message: Message):
                 [
                     InlineKeyboardButton("🖱 ᴍᴇɴᴜ", callback_data="menu"),
                     InlineKeyboardButton("🗑 ᴄʟᴏsᴇ", callback_data="cls"),
-                ],
-                [
-                    InlineKeyboardButton(
-                        "📣 ᴄʜᴀɴɴᴇʟ", url=f"https://t.me/{UPDATES_CHANNEL}"
-                    )
                 ],
             ]
         )
@@ -640,15 +621,17 @@ async def play(_, message: Message):
                         text="🗑 Close", callback_data="cls")],
                 ]
             )
+
             await message.reply_photo(
-                photo=f"{THUMB_IMG}", caption=toxxt, reply_markup=keyboard
+                THUMB_IMG, caption=toxxt, reply_markup=keyboard
             )
 
             await lel.delete()
             # veez project
             return
             # veez project
-        except:
+        except Exception as e:
+            print(e.args)
             await lel.edit("__no more results to choose, starting to playing...__")
 
             # print(results)
@@ -656,7 +639,7 @@ async def play(_, message: Message):
                 url = f"https://youtube.com{results[0]['url_suffix']}"
                 title = results[0]["title"][:60]
                 thumbnail = results[0]["thumbnails"][0]
-                title = title.replace('/','').replace('"','')
+                title.replace('/','').replace('"','')
                 thumb_name = f"thumb-{title}-veezmusic.jpg"
                 thumb = requests.get(thumbnail, allow_redirects=True)
                 open(thumb_name, "wb").write(thumb.content)
@@ -676,11 +659,6 @@ async def play(_, message: Message):
                     [
                         InlineKeyboardButton("🖱 ᴍᴇɴᴜ", callback_data="menu"),
                         InlineKeyboardButton("🗑 ᴄʟᴏsᴇ", callback_data="cls"),
-                    ],
-                    [
-                        InlineKeyboardButton(
-                            "📣 ᴄʜᴀɴɴᴇʟ", url=f"https://t.me/{UPDATES_CHANNEL}"
-                        )
                     ],
                 ]
             )
@@ -744,7 +722,6 @@ async def lol_cb(b, cb):
     if cb.from_user.id != useer_id:
         await cb.answer("💡 sorry, this is not for you !", show_alert=True)
         return
-    # await cb.message.edit("🔁 **processing...**")
     x = int(x)
     try:
         cb.message.reply_to_message.from_user.first_name
@@ -763,12 +740,14 @@ async def lol_cb(b, cb):
             dur += int(dur_arr[i]) * secmul
             secmul *= 60
         if (dur / 60) > DURATION_LIMIT:
-            await cb.message.edit(
-                f"❌ **music with duration more than** `{DURATION_LIMIT}` **minutes, can't play !**"
+            await cb.answer(
+                f"❌ Music with duration more than {DURATION_LIMIT} minutes, can't play !",
+                show_alert=True
             )
             return
     except:
         pass
+    await cb.message.edit("🔁 **processing...**")
     try:
         title = title.replace('/','').replace('"','')
         thumb_name = f"thumb-{title}-veezmusic.jpg"
@@ -785,8 +764,6 @@ async def lol_cb(b, cb):
                 InlineKeyboardButton("🖱 ᴍᴇɴᴜ", callback_data="menu"),
                 InlineKeyboardButton("🗑 ᴄʟᴏsᴇ", callback_data="cls"),
             ],
-            [InlineKeyboardButton(
-                "📣 ᴄʜᴀɴɴᴇʟ", url=f"https://t.me/{UPDATES_CHANNEL}")],
         ]
     )
     await generate_cover(title, thumbnail)
@@ -829,6 +806,7 @@ async def lol_cb(b, cb):
             + f"🎧 **Request by:** {r_by.mention}",
             reply_markup=keyboard,
         )
+    await b.delete_messages(chat_id, cb.message.reply_to_message.message_id)
     if path.exists("final.png"):
         os.remove("final.png")
 
@@ -940,13 +918,6 @@ async def ytplay(_, message: Message):
             [
                 InlineKeyboardButton("🖱 ᴍᴇɴᴜ", callback_data="menu"),
                 InlineKeyboardButton("🗑 ᴄʟᴏsᴇ", callback_data="cls"),
-            ],
-            [
-                InlineKeyboardButton(
-                    "📣 ᴄʜᴀɴɴᴇʟ", url=f"https://t.me/{UPDATES_CHANNEL}"
-                ),
-                InlineKeyboardButton(
-                    "✨ ɢʀᴏᴜᴘ", url=f"https://t.me/{GROUP_SUPPORT}"),
             ],
         ]
     )

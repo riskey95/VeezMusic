@@ -1,3 +1,5 @@
+# Copyright (C) 2021 Veez Music-Project
+
 from asyncio.queues import QueueEmpty
 
 from pyrogram import Client, filters
@@ -25,14 +27,10 @@ async def update_admin(client, message):
         "✅ Bot **reloaded correctly !**\n✅ **Admin list** has been **updated !**"
     )
 
-
-@Client.on_message(
-    filters.command(["channelpause", "cpause"]
-                    ) & filters.group & ~filters.edited
-)
+@Client.on_message(command(["cpause", f"cpause@{BOT_USERNAME}"]) & other_filters)
 @errors
 @authorized_users_only
-async def pause(_, message: Message):
+async def channel_pause(_, message: Message):
     try:
         conchat = await _.get_chat(message.chat.id)
         conid = conchat.linked_chat.id
@@ -47,16 +45,13 @@ async def pause(_, message: Message):
         await message.reply_text("❌ **no music is currently playing**")
     else:
         callsmusic.pytgcalls.pause_stream(chat_id)
-        await message.reply_text("▶ **Track paused.**\n\n• **To resume the playback, use the** » `/cresume` command.")
+        await message.reply_text("▶ **Track paused.**\n\n• **To resume the playback, use the**\n» `/cresume` command.")
 
 
-@Client.on_message(
-    filters.command(["channelresume", "cresume"]
-                    ) & filters.group & ~filters.edited
-)
+@Client.on_message(command(["cresume", f"cresume@{BOT_USERNAME}"]) & other_filters)
 @errors
 @authorized_users_only
-async def resume(_, message: Message):
+async def channel_resume(_, message: Message):
     try:
         conchat = await _.get_chat(message.chat.id)
         conid = conchat.linked_chat.id
@@ -71,15 +66,13 @@ async def resume(_, message: Message):
         await message.reply_text("❌ **no music is currently playing**")
     else:
         callsmusic.pytgcalls.resume_stream(chat_id)
-        await message.reply_text("⏸ **Track resumed.**\n\n• **To pause the playback, use the** » `/cpause` command.")
+        await message.reply_text("⏸ **Track resumed.**\n\n• **To pause the playback, use the**\n» `/cpause` command.")
 
 
-@Client.on_message(
-    filters.command(["channelend", "cend"]) & filters.group & ~filters.edited
-)
+@Client.on_message(command(["cend", f"cend@{BOT_USERNAME}"]) & other_filters)
 @errors
 @authorized_users_only
-async def stop(_, message: Message):
+async def channel_stop(_, message: Message):
     try:
         conchat = await _.get_chat(message.chat.id)
         conid = conchat.linked_chat.id
@@ -100,9 +93,7 @@ async def stop(_, message: Message):
         await message.reply_text("✅ **music playback has ended**")
 
 
-@Client.on_message(
-    filters.command(["channelskip", "cskip"]) & filters.group & ~filters.edited
-)
+@Client.on_message(command(["cskip", f"cskip@{BOT_USERNAME}"]) & other_filters)
 @errors
 @authorized_users_only
 async def skip(_, message: Message):

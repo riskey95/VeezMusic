@@ -13,7 +13,7 @@ import aiofiles
 import aiohttp
 import requests
 import wget
-import youtube_dl
+import yt_dlp
 from pyrogram import Client, filters
 from pyrogram.errors import FloodWait, MessageNotModified
 from pyrogram.types import Message
@@ -23,6 +23,16 @@ from yt_dlp import YoutubeDL
 from config import BOT_USERNAME as bn
 from helpers.decorators import humanbytes
 from helpers.filters import command
+
+
+ydl_opts = {
+        'format':'best',
+        'keepvideo':True,
+        'prefer_ffmpeg':False,
+        'geo_bypass':True,
+        'outtmpl':'%(title)s.%(ext)s',
+        'quite':True
+}
 
 
 @Client.on_message(command(["song", f"song@{bn}"]) & ~filters.edited)
@@ -35,22 +45,22 @@ def song(_, message):
         link = f"https://youtube.com{results[0]['url_suffix']}"
         title = results[0]["title"][:40]
         thumbnail = results[0]["thumbnails"][0]
-        thumb_name = f"thumb-{title}.jpg"
+        thumb_name = f"thumb{title}.jpg"
         thumb = requests.get(thumbnail, allow_redirects=True)
         open(thumb_name, "wb").write(thumb.content)
         duration = results[0]["duration"]
 
     except Exception as e:
-        m.edit("❌ **song not found.**\n\n» **please give a valid song name.**")
+        m.edit("❌ song not found.\n\nplease give a valid song name.")
         print(str(e))
         return
     m.edit("📥 downloading...")
     try:
-        with youtube_dl.YoutubeDL(ydl_ops) as ydl:
+        with yt_dlp.YoutubeDL(ydl_ops) as ydl:
             info_dict = ydl.extract_info(link, download=False)
             audio_file = ydl.prepare_filename(info_dict)
             ydl.process_info(info_dict)
-        rep = f"🎧 **Uploader @{bn}**"
+        rep = f"**🎧 Uploader @{bn}**"
         secmul, dur, dur_arr = 1, 0, duration.split(":")
         for i in range(len(dur_arr) - 1, -1, -1):
             dur += int(float(dur_arr[i])) * secmul
@@ -65,7 +75,7 @@ def song(_, message):
         )
         m.delete()
     except Exception as e:
-        m.edit("❌ error, wait for bot owner to fix")
+        m.edit("❌ error, wait for dev to fix")
         print(e)
 
     try:
@@ -185,19 +195,6 @@ def time_formatter(milliseconds: int) -> str:
     return tmp[:-2]
 
 
-ydl_opts = {
-    "format": "bestaudio/best",
-    "writethumbnail": True,
-    "postprocessors": [
-        {
-            "key": "FFmpegExtractAudio",
-            "preferredcodec": "mp3",
-            "preferredquality": "192",
-        }
-    ],
-}
-
-
 def get_file_extension_from_url(url):
     url_path = urlparse(url).path
     basename = os.path.basename(url_path)
@@ -241,7 +238,7 @@ async def vsong(client, message):
         link = f"https://youtube.com{results[0]['url_suffix']}"
         title = results[0]["title"][:40]
         thumbnail = results[0]["thumbnails"][0]
-        thumb_name = f"thumb{title}.jpg"
+        thumb_name = f"{title}.jpg"
         thumb = requests.get(thumbnail, allow_redirects=True)
         open(thumb_name, "wb").write(thumb.content)
         results[0]["duration"]
@@ -270,3 +267,20 @@ async def vsong(client, message):
         await msg.delete()
     except Exception as e:
         print(e)
+
+
+@Client.on_message(command(["lyric", f"lyric@{bn}"]))
+async def lyrics(_, message):
+    try:
+        if len(message.command) < 2:
+            await message.reply_text("» **give a lyric name too.**")
+            return
+        query = message.text.split(None, 1)[1]
+        rep = await message.reply_text("🔎 **searching lyrics...**")
+        resp = requests.get(
+            f"https://api-tede.herokuapp.com/api/lirik?l={query}"
+        ).json()
+        result = f"{resp['data']}"
+        await rep.edit(result)
+    except Exception:
+        await rep.edit("❌ **lyrics not found.**\n\n» **please give a valid song name.**")

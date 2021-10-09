@@ -12,12 +12,11 @@ from youtube_search import YoutubeSearch
 from callsmusic import callsmusic
 from callsmusic.callsmusic import client as USER
 from callsmusic.queues import queues
-from config import DURATION_LIMIT
-from config import UPDATES_CHANNEL as updateschannel
-from config import que
+from config import que, DURATION_LIMIT, BOT_USERNAME, UPDATES_CHANNEL as updateschannel
 from converter.converter import convert
 from downloaders import youtube
 from handlers.play import cb_admin_check, generate_cover
+from helpers.filters import command, other_filters
 from helpers.admins import get_administrators
 from helpers.decorators import authorized_users_only
 from helpers.errors import DurationLimitError
@@ -26,10 +25,7 @@ from helpers.gets import get_file_name
 chat_id = None
 
 
-@Client.on_message(
-    filters.command(["channelplaylist", "cplaylist"]
-                    ) & filters.group & ~filters.edited
-)
+@Client.on_message(command(["cplaylist", f"cplaylist@{BOT_USERNAME}"]) & other_filters)
 async def playlist(client, message):
     try:
         lel = await client.get_chat(message.chat.id)
@@ -46,7 +42,7 @@ async def playlist(client, message):
         temp.append(t)
     now_playing = temp[0][0]
     by = temp[0][1].mention(style="md")
-    msg = "**Now Playing** in {}".format(lel.linked_chat.title)
+    msg = "💡 **now playing** on {}".format(lel.linked_chat.title)
     msg += "\n- " + now_playing
     msg += "\n- Req by " + by
     temp.pop(0)
@@ -67,11 +63,11 @@ async def playlist(client, message):
 def updated_stats(chat, queue, vol=100):
     if chat.id in callsmusic.pytgcalls.active_calls:
         # if chat.id in active_chats:
-        stats = "Settings of **{}**".format(chat.title)
+        stats = "⚙️ settings of **{}**".format(chat.title)
         if len(que) > 0:
             stats += "\n\n"
             stats += "Volume : {}%\n".format(vol)
-            stats += "Songs in queue : `{}`\n".format(len(que))
+            stats += "Songs Played : `{}`\n".format(len(que))
             stats += "Now Playing : **{}**\n".format(queue[0][0])
             stats += "Requested by : {}".format(queue[0][1].mention)
     else:
@@ -101,10 +97,7 @@ def r_ply(type_):
     return mar
 
 
-@Client.on_message(
-    filters.command(["channelcurrent", "ccurrent"]
-                    ) & filters.group & ~filters.edited
-)
+@Client.on_message(command(["ccurent", f"ccurent@{BOT_USERNAME}"]) & other_filters)
 async def ee(client, message):
     try:
         lel = await client.get_chat(message.chat.id)
@@ -121,10 +114,7 @@ async def ee(client, message):
         await message.reply("please turn on the voice chat first !")
 
 
-@Client.on_message(
-    filters.command(["channelplayer", "cplayer"]
-                    ) & filters.group & ~filters.edited
-)
+@Client.on_message(command(["cplayer", f"cplayer@{BOT_USERNAME}"]) & other_filters)
 @authorized_users_only
 async def settings(client, message):
     playing = None
@@ -243,7 +233,7 @@ async def m_cb(b, cb):
             temp.append(t)
         now_playing = temp[0][0]
         by = temp[0][1].mention(style="md")
-        msg = "**Now Playing** in {}".format(cb.message.chat.title)
+        msg = "💡 **now Playing** on {}".format(cb.message.chat.title)
         msg += "\n- " + now_playing
         msg += "\n- Req by " + by
         temp.pop(0)
@@ -325,18 +315,16 @@ async def m_cb(b, cb):
                 pass
 
             callsmusic.pytgcalls.leave_group_call(chet_id)
-            await cb.message.edit("music player was disconnected from voice chat!")
+            await cb.message.edit("music player was disconnected from voice chat !")
         else:
-            await cb.answer("chat is not connected!", show_alert=True)
+            await cb.answer("chat is not connected !", show_alert=True)
 
 
-@Client.on_message(
-    filters.command(["channelplay", "cplay"]) & filters.group & ~filters.edited
-)
+@Client.on_message(command(["cplay", f"cplay@{BOT_USERNAME}"]) & other_filters)
 @authorized_users_only
 async def play(_, message: Message):
     global que
-    lel = await message.reply("🔎 **Searching...**")
+    lel = await message.reply("🔎 **searching...**")
 
     try:
         conchat = await _.get_chat(message.chat.id)
@@ -400,6 +388,7 @@ async def play(_, message: Message):
     message.from_user.id
     text_links = None
     message.from_user.first_name
+    await lel.edit("🎧 **preparing...**")
     message.from_user.id
     user_id = message.from_user.id
     message.from_user.first_name
@@ -446,7 +435,7 @@ async def play(_, message: Message):
         title = file_name
         thumb_name = "https://telegra.ph/file/f6086f8909fbfeb0844f2.png"
         thumbnail = thumb_name
-        round(audio.duration / 60)
+        duration = round(audio.duration / 60)
         message.from_user.first_name
         await generate_cover(title, thumbnail)
         file_path = await convert(
@@ -456,16 +445,18 @@ async def play(_, message: Message):
         )
     elif urls:
         query = toxt
-        ydl_opts = {"format": "bestaudio/best"}
+        await lel.edit("🎵 **sending audio...**")
+        ydl_opts = {"format": "bestaudio[ext=m4a]"}
         try:
             results = YoutubeSearch(query, max_results=1).to_dict()
             url = f"https://youtube.com{results[0]['url_suffix']}"
             # print(results)
             title = results[0]["title"][:60]
             thumbnail = results[0]["thumbnails"][0]
-            thumb_name = f"thumb-{title}-veezmusic.jpg"
+            thumb_name = f"{title}.jpg"
             thumb = requests.get(thumbnail, allow_redirects=True)
             open(thumb_name, "wb").write(thumb.content)
+            duration = results[0]["duration"]
             results[0]["duration"]
             results[0]["url_suffix"]
             results[0]["views"]
@@ -497,16 +488,18 @@ async def play(_, message: Message):
         for i in message.command[1:]:
             query += " " + str(i)
         print(query)
-        ydl_opts = {"format": "bestaudio/best"}
+        await lel.edit("🎵 **sending audio...**")
+        ydl_opts = {"format": "bestaudio[ext=m4a]"}
         try:
             results = YoutubeSearch(query, max_results=1).to_dict()
             url = f"https://youtube.com{results[0]['url_suffix']}"
             # print(results)
             title = results[0]["title"][:60]
             thumbnail = results[0]["thumbnails"][0]
-            thumb_name = f"thumb-{title}-veezmusic.jpg"
+            thumb_name = f"{title}.jpg"
             thumb = requests.get(thumbnail, allow_redirects=True)
             open(thumb_name, "wb").write(thumb.content)
+            duration = results[0]["duration"]
             results[0]["duration"]
             results[0]["url_suffix"]
             results[0]["views"]

@@ -1,17 +1,12 @@
 import os
 import shutil
 import sys
-import heroku3
 import traceback
 from functools import wraps
 from os import environ, execle
 
+import heroku3
 import psutil
-from git import Repo
-from git.exc import GitCommandError, InvalidGitRepositoryError
-from pyrogram import Client, filters
-from pyrogram.types import Message
-
 from config import (
     BOT_USERNAME,
     GROUP_SUPPORT,
@@ -22,11 +17,15 @@ from config import (
     U_BRANCH,
     UPSTREAM_REPO,
 )
+from git import Repo
+from git.exc import GitCommandError, InvalidGitRepositoryError
 from handlers.song import get_text, humanbytes
-from helpers.filters import command
 from helpers.database import db
 from helpers.dbtools import main_broadcast_handler
 from helpers.decorators import sudo_users_only
+from helpers.filters import command
+from pyrogram import Client, filters
+from pyrogram.types import Message
 
 
 # Stats Of Your Bot
@@ -42,7 +41,7 @@ async def botstats(_, message: Message):
     disk_usage = psutil.disk_usage("/").percent
     total_users = await db.total_users_count()
     await message.reply_text(
-        text=f"**📊 stats of @{BOT_USERNAME}** \n\n**🤖 bot version:** `v6.5` \n\n**🙎🏼 total users:** \n » **on bot pm:** `{total_users}` \n\n**💾 disk usage:** \n » **disk space:** `{total}` \n » **used:** `{used}({disk_usage}%)` \n » **free:** `{free}` \n\n**🎛 hardware usage:** \n » **CPU usage:** `{cpu_usage}%` \n » **RAM usage:** `{ram_usage}%`",
+        text=f"**📊 stats of @{BOT_USERNAME}** \n\n**🤖 bot version:** `v6.8` \n\n**🙎🏼 total users:** \n » **on bot pm:** `{total_users}` \n\n**💾 disk usage:** \n » **disk space:** `{total}` \n » **used:** `{used}({disk_usage}%)` \n » **free:** `{free}` \n\n**🎛 hardware usage:** \n » **CPU usage:** `{cpu_usage}%` \n » **RAM usage:** `{ram_usage}%`",
         parse_mode="Markdown",
         quote=True,
     )
@@ -93,9 +92,8 @@ async def ban(c: Client, m: Message):
 
 
 # Unblock User
-@Client.on_message(
-    filters.private & filters.command("unblock") & filters.user(OWNER_ID)
-)
+@Client.on_message(filters.private & filters.command("unblock"))
+@sudo_users_only
 async def unban(c: Client, m: Message):
     if len(m.command) == 1:
         await m.reply_text(
@@ -123,9 +121,8 @@ async def unban(c: Client, m: Message):
 
 
 # Blocked User List
-@Client.on_message(
-    filters.private & filters.command("blocklist") & filters.user(OWNER_ID)
-)
+@Client.on_message(filters.private & filters.command("blocklist"))
+@sudo_users_only
 async def _banned_usrs(_, m: Message):
     all_banned_users = await db.get_all_banned_users()
     banned_usr_count = 0
@@ -246,10 +243,10 @@ def _check_heroku(func):
     async def heroku_cli(client, message):
         heroku_app = None
         if not heroku_client:
-            await message.reply_text("`Please Add Heroku API Key To Use This Feature!`")
+            await message.reply_text("`please add heroku api key to use this feature!`")
         elif not HEROKU_APP_NAME:
             await edit_or_reply(
-                message, "`Please Add Heroku APP Name To Use This Feature!`"
+                message, "`please add heroku app name to use this feature!`"
             )
         if HEROKU_APP_NAME and heroku_client:
             try:
@@ -257,7 +254,7 @@ def _check_heroku(func):
             except:
                 await message.reply_text(
                     message,
-                    "`Heroku Api Key And App Name Doesn't Match! Check it again`",
+                    "`heroku api key and app name doesn't match, please recheck`",
                 )
             if heroku_app:
                 await func(client, message, heroku_app)
@@ -265,7 +262,8 @@ def _check_heroku(func):
     return heroku_cli
 
 
-@Client.on_message(command("logs") & filters.user(OWNER_ID))
+@Client.on_message(command("logs"))
+@sudo_users_only
 @_check_heroku
 async def logswen(client: Client, message: Message, happ):
     msg = await message.reply_text("`please wait for a moment!`")

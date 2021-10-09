@@ -5,15 +5,9 @@ from typing import Callable
 
 import aiofiles
 import aiohttp
+import converter
 import ffmpeg
 import requests
-from PIL import Image, ImageDraw, ImageFont
-from pyrogram import Client, filters
-from pyrogram.errors import UserAlreadyParticipant
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
-from youtube_search import YoutubeSearch
-
-import converter
 from cache.admins import admins as a
 from callsmusic import callsmusic
 from callsmusic.callsmusic import client as USER
@@ -25,6 +19,11 @@ from helpers.channelmusic import get_chat_id
 from helpers.decorators import authorized_users_only
 from helpers.filters import command, other_filters
 from helpers.gets import get_file_name
+from PIL import Image, ImageDraw, ImageFont
+from pyrogram import Client, filters
+from pyrogram.errors import UserAlreadyParticipant
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from youtube_search import YoutubeSearch
 
 aiohttpsession = aiohttp.ClientSession()
 chat_id = None
@@ -40,6 +39,7 @@ def cb_admin_check(func: Callable) -> Callable:
         else:
             await cb.answer("💡 only admin can tap this button !", show_alert=True)
             return
+
     return decorator
 
 
@@ -91,10 +91,10 @@ async def generate_cover(title, thumbnail):
     Image.alpha_composite(image5, image6).save("temp.png")
     img = Image.open("temp.png")
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype("etc/Roboto-Medium.ttf", 60)
+    font = ImageFont.truetype("etc/Roboto-Medium.ttf", 55)
     font2 = ImageFont.truetype("etc/finalfont.ttf", 75)
-    draw.text((25, 535), "Playing here...", (0, 0, 0), font=font)
-    draw.text((25, 620), f"{title[:25]}...", (0, 0, 0), font=font2)
+    draw.text((25, 528), "Playing here...", (0, 0, 0), font=font)
+    draw.text((25, 610), f"{title[:20]}...", (0, 0, 0), font=font2)
     img.save("final.png")
     os.remove("temp.png")
     os.remove("background.png")
@@ -218,9 +218,7 @@ async def music_onoff(_, message):
             await lel.edit("» **music player already turned on.**")
             return
         DISABLED_GROUPS.remove(message.chat.id)
-        await lel.edit(
-            f"✅ **music player turned on**\n\n💬 `{message.chat.id}`"
-        )
+        await lel.edit(f"✅ **music player turned on**\n\n💬 `{message.chat.id}`")
 
     elif status == "OFF" or status == "off" or status == "Off":
         lel = await message.reply("`processing...`")
@@ -229,9 +227,7 @@ async def music_onoff(_, message):
             await lel.edit("» **music player already turned off.**")
             return
         DISABLED_GROUPS.append(message.chat.id)
-        await lel.edit(
-            f"✅ **music player turned off**\n\n💬 `{message.chat.id}`"
-        )
+        await lel.edit(f"✅ **music player turned off**\n\n💬 `{message.chat.id}`")
     else:
         await message.reply_text(
             "**i'm only know** `/musicplayer on` **and** `/musicplayer off`"
@@ -327,7 +323,7 @@ async def m_cb(b, cb):
             temp.append(t)
         now_playing = temp[0][0]
         by = temp[0][1].mention(style="md")
-        msg = "**Now playing** in {}".format(cb.message.chat.title)
+        msg = "💡 **now playing** on {}".format(cb.message.chat.title)
         msg += "\n• " + now_playing
         msg += "\n• Req by " + by
         temp.pop(0)
@@ -407,9 +403,7 @@ async def m_cb(b, cb):
                 )
                 await cb.answer("skipped")
                 await cb.message.edit((m_chat, qeue), reply_markup=r_ply(the_data))
-                await cb.message.reply_text(
-                    "⏭ **You've skipped to the next song.**"
-                )
+                await cb.message.reply_text("⏭ **You've skipped to the next song.**")
 
     elif type_ == "leave":
         if chet_id in callsmusic.pytgcalls.active_calls:
@@ -432,7 +426,7 @@ async def play(_, message: Message):
     global useer
     if message.chat.id in DISABLED_GROUPS:
         return
-    lel = await message.reply("🔎 **Searching...**")
+    lel = await message.reply("🔎 **searching...**")
     administrators = await get_administrators(message.chat)
     chid = message.chat.id
     try:
@@ -472,7 +466,7 @@ async def play(_, message: Message):
                 except Exception:
                     # print(e)
                     await lel.edit(
-                        f"<b>🔴 Flood Wait Error 🔴 \n\nassistant can't join this group due to many join requests for userbot."
+                        f"<b>🔴 Flood Wait Error 🔴 \n\nuserbot can't join this group due to many join requests for userbot."
                         f"\n\nor add @{ASSISTANT_NAME} to this group manually then try again.</b>",
                     )
     try:
@@ -535,7 +529,7 @@ async def play(_, message: Message):
     elif urls:
         query = toxt
         await lel.edit("🔎 **Searching...**")
-        ydl_opts = {"format": "bestaudio/best"}
+        ydl_opts = {"format": "bestaudio[ext=m4a]"}
         try:
             results = YoutubeSearch(query, max_results=1).to_dict()
             url = f"https://youtube.com{results[0]['url_suffix']}"
@@ -571,7 +565,7 @@ async def play(_, message: Message):
         for i in message.command[1:]:
             query += " " + str(i)
         print(query)
-        ydl_opts = {"format": "bestaudio/best"}
+        ydl_opts = {"format": "bestaudio[ext=m4a]"}
 
         try:
             results = YoutubeSearch(query, max_results=5).to_dict()
@@ -587,7 +581,7 @@ async def play(_, message: Message):
             emojilist = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]
             while j < 5:
                 toxxt += f"{emojilist[j]} [{results[j]['title'][:25]}...](https://youtube.com{results[j]['url_suffix']})\n"
-                toxxt += f" ├ 💡 **Duration** - {results[j]['duration']}\n"
+                toxxt += f" ├ 💡 **Duration** - `{results[j]['duration']}`\n"
                 toxxt += f" └ ⚡ __Powered by {BOT_NAME} AI__\n\n"
                 j += 1
             keyboard = InlineKeyboardMarkup(
@@ -868,7 +862,7 @@ async def ytplay(_, message: Message):
         query += " " + str(i)
     print(query)
     await lel.edit("🔄 **connecting to vc...**")
-    ydl_opts = {"format": "bestaudio/best"}
+    ydl_opts = {"format": "bestaudio[ext=m4a]"}
     try:
         results = YoutubeSearch(query, max_results=1).to_dict()
         url = f"https://youtube.com{results[0]['url_suffix']}"

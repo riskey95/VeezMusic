@@ -1,6 +1,6 @@
-<h2 align="centre">🎵 VEEZ MUSIC BOT</h2>
+## 🎵 VEEZ MUSIC BOT
 
-### Veez Music is a telegram bot project that's allow you to play music on telegram voice chat group.
+Veez Music is a telegram bot project that's allow you to play music on telegram voice chat group.
 
 <p align="center"><a href="https://t.me/VeezMusicBot"><img src="https://telegra.ph/file/8bf3d62837cb59c3f8e7f.png" width="300"></a></p>
 <p align="center">
@@ -18,7 +18,7 @@
 
 - FFmpeg
 - NodeJS [nodesource.com](https://nodesource.com/)
-- Python 3.8 or higher
+- Python 3.7 or higher
 - [PyTgCalls](https://github.com/pytgcalls/pytgcalls)
 - [MongoDB](https://cloud.mongodb.com/)
 
@@ -45,7 +45,6 @@
 - Unlimited Queue
 - Broadcast Bot
 - Statistic Collector
-- Group Tools (ban/unban/mute/unmute)
 - Block / Unblock (restrict user for using your bot)
 
 ## Commands 🛠
@@ -66,8 +65,8 @@
 - `/end` - stop music play
 - `/musicplayer on` - to disable music player in your group
 - `/musicplayer off` - to enable music player in your group
-- `/userbotjoin` - invite assistant to your chat
-- `/userbotleave` - remove assistant from your chat
+- `/join` - invite assistant to your chat
+- `/leave` - remove assistant from your chat
 - `/reload` - Refresh admin list
 - `/uptime` - check the bot uptime status
 - `/ping` - check the bot ping status
@@ -78,8 +77,7 @@
 ### Sudo User 🧙‍♂️
 - `/stats` - see the bot statistic
 - `/pmpermit on | off` turn on/off the assistant pmpermit
-- `/userbotleaveall` - order the assistant to leave all groups
-- `/gcast` - send a broadcast message from the assistant
+- `/leaveall` - order the assistant to leave all groups
 
 ### Owner Only 👨🏻‍✈️
 - `/broadcast` - send a broadcast message from the bot
@@ -87,14 +85,11 @@
 - `/unblock` - unblock people you blocked for using your bot
 - `/blocklist` - show the list of all people who's blocked for using your bot
 
-### pm-permit 💬
-- `.yes` - approve user for sending message to assistant
-- `.no` - disapprove user for sending message to assistant
-
-## 🔎 Support Inline Search
+## 🔎 Inline Search Support
+- just type the bot username in any chat, example: "`@VeezMusicBot Faded Alan Walker`", then bot will give you a results of the query you search in inline mode.
 
 ## Heroku Deployment 💜
-The easy way to host this bot, deploy to Heroku
+The easy way to host this bot, deploy to Heroku, Change the app country to Europe (it will help to make the bot stable).
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/levina-lab/veezmusic)
 
@@ -119,6 +114,7 @@ python3 main.py # Run the bot
 - [Levina](https://github.com/levina-lab): Dev
 - [Tofik](https://github.com/tofikdn): Dev
 - [Zxce3](https://github.com/Zxce3): Dev
+- [Hyoka-XD](https://github.com/PratheekXD) Contributor
 - [Laky](https://github.com/Laky-64) & [Andrew](https://github.com/AndrewLaneX): PyTgCalls
 - [Original Repo](https://github.com/callsmusic/callsmusic) CallsMusic
 - [Veez Music Bot](https://t.me/veezmusicbot) Our Music Bot

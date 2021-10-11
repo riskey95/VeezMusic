@@ -137,7 +137,7 @@ def updated_stats(chat, queue, vol=100):
         stats = "⚙ settings for **{}**".format(chat.title)
         if len(que) > 0:
             stats += "\n\n"
-            stats += "🎚 volume: {}%\n".format(vol)
+            stats += "🔊 volume: {}%\n".format(vol)
             stats += "🎵 song played: `{}`\n".format(len(que))
             stats += "💡 now playing: **{}**\n".format(queue[0][0])
             stats += "🎧 request by: {}".format(queue[0][1].mention(style="md"))

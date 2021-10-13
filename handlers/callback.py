@@ -17,13 +17,12 @@ from config import (
 @Client.on_callback_query(filters.regex("cbstart"))
 async def cbstart(_, query: CallbackQuery):
     await query.edit_message_text(
-        f"""<b>✨ **Welcome !** \n
+        f"""✨ **Welcome [{query.message.chat.first_name}](tg://user?id={query.message.chat.id}) !**\n
 💭 **[{BOT_NAME}](https://t.me/{BOT_USERNAME}) allows you to play music on groups through the new Telegram's voice chats!**
 
-💡 **Find out all the Bot's commands and how they work by clicking on the\n» 📚 Commands button!**
+💡 **Find out all the Bot's commands and how they work by clicking on the » 📚 Commands button!**
 
-❔ **To know how to use this bot, please click on the » ❓ Basic Guide button!**
-</b>""",
+❔ **To know how to use this bot, please click on the » ❓ Basic Guide button!**""",
         reply_markup=InlineKeyboardMarkup(
             [
                 [
@@ -61,7 +60,7 @@ async def cbstart(_, query: CallbackQuery):
 @Client.on_callback_query(filters.regex("cbhelp"))
 async def cbhelp(_, query: CallbackQuery):
     await query.edit_message_text(
-        f"""✨ **Hello** !
+        f"""✨ **Hello** [{query.message.chat.first_name}](tg://user?id={query.message.chat.id}) !
 
 » **press the button below to read the explanation and see the list of available commands !**
 
@@ -275,7 +274,7 @@ async def cbdelcmds(_, query: CallbackQuery):
 @Client.on_callback_query(filters.regex("cbcmds"))
 async def cbhelps(_, query: CallbackQuery):
     await query.edit_message_text(
-        f"""✨ **Hello** !
+        f"""✨ **Hello** [{query.message.chat.first_name}](tg://user?id={query.message.chat.id}) !
 
 » **press the button below to read the explanation and see the list of available commands !**
 

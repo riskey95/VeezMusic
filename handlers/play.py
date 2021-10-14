@@ -110,9 +110,9 @@ async def playlist(client, message):
     keyboard = InlineKeyboardMarkup(
         [
             [
-                InlineKeyboardButton("✨ Group", url=f"https://t.me/{GROUP_SUPPORT}"),
+                InlineKeyboardButton("• Gʀᴏᴜᴘ", url=f"https://t.me/{GROUP_SUPPORT}"),
                 InlineKeyboardButton(
-                    "📣 Channel", url=f"https://t.me/{UPDATES_CHANNEL}"
+                    "• Cʜᴀɴɴᴇʟ", url=f"https://t.me/{UPDATES_CHANNEL}"
                 ),
             ]
         ]
@@ -135,11 +135,11 @@ async def playlist(client, message):
     temp.pop(0)
     if temp:
         msg += "\n\n"
-        msg += "**Queued Song**"
+        msg += "🔖 **Queued Song**"
         for song in temp:
             name = song[0]
             usr = song[1].mention(style="md")
-            msg += f"\n• {name}"
+            msg += f"\n\n• {name}"
             msg += f"\n• Req by {usr}\n"
     await message.reply_text(msg, reply_markup=keyboard)
 
@@ -150,10 +150,10 @@ def updated_stats(chat, queue, vol=100):
         stats = "⚙ settings for **{}**".format(chat.title)
         if len(que) > 0:
             stats += "\n\n"
-            stats += "🔊 volume: {}%\n".format(vol)
-            stats += "🎵 song played: `{}`\n".format(len(que))
-            stats += "💡 now playing: **{}**\n".format(queue[0][0])
-            stats += "🎧 request by: {}".format(queue[0][1].mention(style="md"))
+            stats += "• volume: {}%\n".format(vol)
+            stats += "• song played: `{}`\n".format(len(que))
+            stats += "• now playing: **{}**\n".format(queue[0][0])
+            stats += "• request by: {}".format(queue[0][1].mention(style="md"))
     else:
         stats = None
     return stats
@@ -253,9 +253,9 @@ async def p_cb(b, cb):
     keyboard = InlineKeyboardMarkup(
         [
             [
-                InlineKeyboardButton("✨ Group", url=f"https://t.me/{GROUP_SUPPORT}"),
+                InlineKeyboardButton("• Gʀᴏᴜᴘ", url=f"https://t.me/{GROUP_SUPPORT}"),
                 InlineKeyboardButton(
-                    "📣 Channel", url=f"https://t.me/{UPDATES_CHANNEL}"
+                    "• Cʜᴀɴɴᴇʟ", url=f"https://t.me/{UPDATES_CHANNEL}"
                 ),
             ],
             [InlineKeyboardButton("🔙 Go Back", callback_data="menu")],
@@ -283,7 +283,7 @@ async def p_cb(b, cb):
         temp.pop(0)
         if temp:
             msg += "\n\n"
-            msg += "**Queued Song**"
+            msg += "🔖 **Queued Song**"
             for song in temp:
                 name = song[0]
                 usr = song[1].mention(style="md")
@@ -301,9 +301,9 @@ async def m_cb(b, cb):
     keyboard = InlineKeyboardMarkup(
         [
             [
-                InlineKeyboardButton("✨ Group", url=f"https://t.me/{GROUP_SUPPORT}"),
+                InlineKeyboardButton("• Gʀᴏᴜᴘ", url=f"https://t.me/{GROUP_SUPPORT}"),
                 InlineKeyboardButton(
-                    "📣 Channel", url=f"https://t.me/{UPDATES_CHANNEL}"
+                    "• Cʜᴀɴɴᴇʟ", url=f"https://t.me/{UPDATES_CHANNEL}"
                 ),
             ],
             [InlineKeyboardButton("🔙 Go Back", callback_data="menu")],
@@ -368,7 +368,7 @@ async def m_cb(b, cb):
         temp.pop(0)
         if temp:
             msg += "\n\n"
-            msg += "**Queued Song**"
+            msg += "🔖 **Queued Song**"
             for song in temp:
                 name = song[0]
                 usr = song[1].mention(style="md")
@@ -555,8 +555,8 @@ async def play(_, message: Message):
         keyboard = InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("🖱 ᴍᴇɴᴜ", callback_data="menu"),
-                    InlineKeyboardButton("🗑 ᴄʟᴏsᴇ", callback_data="cls"),
+                    InlineKeyboardButton("• Mᴇɴᴜ", callback_data="menu"),
+                    InlineKeyboardButton("• Cʟᴏsᴇ", callback_data="cls"),
                 ],
             ]
         )
@@ -600,8 +600,8 @@ async def play(_, message: Message):
         keyboard = InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("🖱 ᴍᴇɴᴜ", callback_data="menu"),
-                    InlineKeyboardButton("🗑 ᴄʟᴏsᴇ", callback_data="cls"),
+                    InlineKeyboardButton("• Mᴇɴᴜ", callback_data="menu"),
+                    InlineKeyboardButton("• Cʟᴏsᴇ", callback_data="cls"),
                 ],
             ]
         )
@@ -693,8 +693,8 @@ async def play(_, message: Message):
             keyboard = InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton("🖱 ᴍᴇɴᴜ", callback_data="menu"),
-                        InlineKeyboardButton("🗑 ᴄʟᴏsᴇ", callback_data="cls"),
+                        InlineKeyboardButton("• Mᴇɴᴜ", callback_data="menu"),
+                        InlineKeyboardButton("• Cʟᴏsᴇ", callback_data="cls"),
                     ],
                 ]
             )
@@ -797,8 +797,8 @@ async def lol_cb(b, cb):
     keyboard = InlineKeyboardMarkup(
         [
             [
-                InlineKeyboardButton("🖱 ᴍᴇɴᴜ", callback_data="menu"),
-                InlineKeyboardButton("🗑 ᴄʟᴏsᴇ", callback_data="cls"),
+                InlineKeyboardButton("• Mᴇɴᴜ", callback_data="menu"),
+                InlineKeyboardButton("• Cʟᴏsᴇ", callback_data="cls"),
             ],
         ]
     )
@@ -952,8 +952,8 @@ async def ytplay(_, message: Message):
     keyboard = InlineKeyboardMarkup(
         [
             [
-                InlineKeyboardButton("🖱 ᴍᴇɴᴜ", callback_data="menu"),
-                InlineKeyboardButton("🗑 ᴄʟᴏsᴇ", callback_data="cls"),
+                InlineKeyboardButton("• Mᴇɴᴜ", callback_data="menu"),
+                InlineKeyboardButton("• Cʟᴏsᴇ", callback_data="cls"),
             ],
         ]
     )

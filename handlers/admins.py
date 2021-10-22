@@ -89,7 +89,7 @@ async def pause(_, message: Message):
     else:
         callsmusic.pytgcalls.pause_stream(chat_id)
         await message.reply_text(
-            "⏸ **Track paused.**\n\n• **To resume the playback, use the**\n» `/resume` command."
+            "⏸ **Track paused.**\n\n• **To resume the playback, use the**\n» /resume command."
         )
 
 
@@ -105,7 +105,7 @@ async def resume(_, message: Message):
     else:
         callsmusic.pytgcalls.resume_stream(chat_id)
         await message.reply_text(
-            "▶️ **Track resumed.**\n\n• **To pause the playback, use the**\n» `/pause` command."
+            "▶️ **Track resumed.**\n\n• **To pause the playback, use the**\n» /pause command."
         )
 
 
@@ -168,7 +168,7 @@ async def authenticate(client, message):
         await message.reply("✅ user already authorized!")
 
 
-@Client.on_message(command(["deauth", f"deauth@{BOT_USERNAME}"]) & other_filters)
+@Client.on_message(command(["unauth", f"deauth@{BOT_USERNAME}"]) & other_filters)
 @authorized_users_only
 async def deautenticate(client, message):
     global admins

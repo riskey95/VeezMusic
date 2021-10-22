@@ -60,7 +60,7 @@ async def cbstart(_, query: CallbackQuery):
 @Client.on_callback_query(filters.regex("cbhelp"))
 async def cbhelp(_, query: CallbackQuery):
     await query.edit_message_text(
-        f"""✨ **Hello** [{query.message.chat.first_name}](tg://user?id={query.message.chat.id}) !
+        f"""✨ **Hello !**
 
 » **press the button below to read the explanation and see the list of available commands !**
 
@@ -90,7 +90,7 @@ async def cbbasic(_, query: CallbackQuery):
     await query.edit_message_text(
         f"""🏮 **here is the basic commands**
 
-🎧 [ GROUP VC CMD ]
+🎧 [ VOICE CHAT PLAY CMD ]
 
 /play (song name) - play song from youtube
 /ytp (song name) - play song directly from youtube 
@@ -98,19 +98,8 @@ async def cbbasic(_, query: CallbackQuery):
 /playlist - show the list song in queue
 /song (song name) - download song from youtube
 /search (video name) - search video from youtube detailed
-/vsong (video name) - download video from youtube detailed
+/video (video name) - download video from youtube detailed
 /lyric - (song name) lyrics scrapper
-
-🎧 [ CHANNEL VC CMD ]
-
-/cplay - stream music on channel voice chat
-/cplayer - show the song in streaming
-/cpause - pause the streaming music
-/cresume - resume the streaming was paused
-/cskip - skip streaming to the next song
-/cend - end the streaming music
-/refresh - refresh the admin cache
-/ubjoinc - invite the assistant for join to your channel
 
 ⚡ __Powered by {BOT_NAME} A.I__""",
         reply_markup=InlineKeyboardMarkup(
@@ -150,10 +139,10 @@ async def cbadmin(_, query: CallbackQuery):
 /join - invite userbot join to your group
 /leave - order the userbot to leave your group
 /auth - authorized user for using music bot
-/deauth - unauthorized for using music bot
+/unauth - unauthorized for using music bot
 /control - open the player settings panel
 /delcmd (on | off) - enable / disable del cmd feature
-/musicplayer (on / off) - disable / enable music player in your group
+/music (on / off) - disable / enable music player in your group
 
 ⚡ __Powered by {BOT_NAME} A.I__""",
         reply_markup=InlineKeyboardMarkup(
@@ -203,12 +192,12 @@ async def cbowner(_, query: CallbackQuery):
 @Client.on_callback_query(filters.regex("cbguide"))
 async def cbguide(_, query: CallbackQuery):
     await query.edit_message_text(
-        f"""❓ HOW TO USE THIS BOT:
+        f"""❓ **HOW TO USE THIS BOT:**
 
-1.) first, add me to your group.
-2.) then promote me as admin and give all permissions except anonymous admin.
-3.) add @{ASSISTANT_NAME} to your group or type /join to invite her.
-4.) turn on the voice chat first before start to play music.
+1.) **first, add me to your group.**
+2.) **then promote me as admin and give all permissions except anonymous admin.**
+3.) **add @{ASSISTANT_NAME} to your group or type /join to invite her.**
+4.) **turn on the voice chat first before start to play music.**
 
 ⚡ __Powered by {BOT_NAME} A.I__""",
         reply_markup=InlineKeyboardMarkup(
@@ -301,12 +290,12 @@ async def cbhelps(_, query: CallbackQuery):
 @Client.on_callback_query(filters.regex("cbhowtouse"))
 async def cbguides(_, query: CallbackQuery):
     await query.edit_message_text(
-        f"""❓ HOW TO USE THIS BOT:
+        f"""❓ **HOW TO USE THIS BOT:**
 
-1.) first, add me to your group.
-2.) then promote me as admin and give all permissions except anonymous admin.
-3.) add @{ASSISTANT_NAME} to your group or type /join to invite her.
-4.) turn on the voice chat first before start to play music.
+1.) **first, add me to your group.**
+2.) **then promote me as admin and give all permissions except anonymous admin.**
+3.) **add @{ASSISTANT_NAME} to your group or type /join to invite her.**
+4.) **turn on the voice chat first before start to play music.**
 
 ⚡ __Powered by {BOT_NAME} A.I__""",
         reply_markup=InlineKeyboardMarkup(
@@ -320,7 +309,7 @@ async def cblocal(_, query: CallbackQuery):
     await query.edit_message_text(
         f"""🏮 **here is the basic commands**
 
-🎧 [ GROUP VC CMD ]
+🎧 [ VOICE CHAT PLAY CMD ]
 
 /play (song name) - play song from youtube
 /ytp (song name) - play song directly from youtube 
@@ -328,19 +317,8 @@ async def cblocal(_, query: CallbackQuery):
 /playlist - show the list song in queue
 /song (song name) - download song from youtube
 /search (video name) - search video from youtube detailed
-/vsong (video name) - download video from youtube detailed
+/video (video name) - download video from youtube detailed
 /lyric - (song name) lyrics scrapper
-
-🎧 [ CHANNEL VC CMD ]
-
-/cplay - stream music on channel voice chat
-/cplayer - show the song in streaming
-/cpause - pause the streaming music
-/cresume - resume the streaming was paused
-/cskip - skip streaming to the next song
-/cend - end the streaming music
-/refresh - refresh the admin cache
-/ubjoinc - invite the assistant for join to your channel
 
 ⚡ __Powered by {BOT_NAME} A.I__""",
         reply_markup=InlineKeyboardMarkup(
@@ -380,10 +358,10 @@ async def cblamp(_, query: CallbackQuery):
 /join - invite userbot join to your group
 /leave - order the userbot to leave your group
 /auth - authorized user for using music bot
-/deauth - unauthorized for using music bot
+/unauth - unauthorized for using music bot
 /control - open the player settings panel
 /delcmd (on | off) - enable / disable del cmd feature
-/musicplayer (on / off) - disable / enable music player in your group
+/music (on / off) - disable / enable music player in your group
 
 ⚡ __Powered by {BOT_NAME} A.I__""",
         reply_markup=InlineKeyboardMarkup(
@@ -400,6 +378,8 @@ async def cblab(_, query: CallbackQuery):
 /leaveall - order the assistant to leave from all group
 /stats - show the bot statistic
 /rmd - remove all downloaded files
+/eval (query) - execute code
+/sh (query) - run code
 
 ⚡ __Powered by {BOT_NAME} A.I__""",
         reply_markup=InlineKeyboardMarkup(
@@ -424,5 +404,38 @@ async def cbmoon(_, query: CallbackQuery):
 ⚡ __Powered by {BOT_NAME} A.I__""",
         reply_markup=InlineKeyboardMarkup(
             [[InlineKeyboardButton("🔙 Go Back", callback_data="cbcmds")]]
+        ),
+    )
+
+
+@Client.on_callback_query(filters.regex("cmdhome"))
+async def cmdhome(_, query: CallbackQuery):
+    
+    bttn = InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton("Command Syntax", callback_data="cmdsyntax")
+            ],[
+                InlineKeyboardButton("🗑 Close", callback_data="close")
+            ]
+        ]
+    )
+    
+    nofound = "😕 **couldn't find song you requested**\n\n» **please provide the correct song name or include the artist's name as well**"
+    
+    await query.edit_message_text(nofound, reply_markup=bttn)
+
+
+@Client.on_callback_query(filters.regex("cmdsyntax"))
+async def cmdsyntax(_, query: CallbackQuery):
+    await query.edit_message_text(
+        f"""**Command Syntax** to play music on **Voice Chat:**
+
+• `/play (query)` - for playing music via youtube
+• `/ytp (query)` - for playing music directly via youtube
+
+⚡ __Powered by {BOT_NAME}__""",
+        reply_markup=InlineKeyboardMarkup(
+            [[InlineKeyboardButton("🔙 Go Back", callback_data="cmdhome")]]
         ),
     )

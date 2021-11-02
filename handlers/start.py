@@ -52,14 +52,14 @@ async def _human_time_duration(seconds):
     command(["start", f"start@{BOT_USERNAME}"]
             ) & filters.private & ~filters.edited
 )
-async def start_(client: Client, message: Message):
+async def start_private(client: Client, message: Message):
     await message.reply_text(
         f"""✨ **Welcome {message.from_user.mention()} !**\n
 💭 **[{BOT_NAME}](https://t.me/{BOT_USERNAME}) allows you to play music on groups through the new Telegram's voice chats!**
 
 💡 **Find out all the Bot's commands and how they work by clicking on the » 📚 Commands button!**
 
-❔ **To know how to use this bot, please click on the » ❓ Basic Guide button!**""",
+🔖 **To know how to use this bot, please click on the » ❓ Basic Guide button!**""",
         reply_markup=InlineKeyboardMarkup(
             [
                 [
@@ -72,8 +72,7 @@ async def start_(client: Client, message: Message):
                     "❓ Basic Guide", callback_data="cbhowtouse")],
                 [
                     InlineKeyboardButton("📚 Commands", callback_data="cbcmds"),
-                    InlineKeyboardButton(
-                        "💝 Donate", url=f"https://t.me/{OWNER_NAME}"),
+                    InlineKeyboardButton("❤️ Donate", url=f"https://t.me/{OWNER_NAME}"),
                 ],
                 [
                     InlineKeyboardButton(
@@ -98,7 +97,7 @@ async def start_(client: Client, message: Message):
     command(["start", f"start@{BOT_USERNAME}"]
             ) & filters.group & ~filters.edited
 )
-async def start(client: Client, message: Message):
+async def start_group(client: Client, message: Message):
     current_time = datetime.utcnow()
     uptime_sec = (current_time - START_TIME).total_seconds()
     uptime = await _human_time_duration(int(uptime_sec))

@@ -22,7 +22,7 @@ async def cbstart(_, query: CallbackQuery):
 
 💡 **Find out all the Bot's commands and how they work by clicking on the » 📚 Commands button!**
 
-❔ **To know how to use this bot, please click on the » ❓ Basic Guide button!**""",
+🔖 **To know how to use this bot, please click on the » ❓ Basic Guide button!**""",
         reply_markup=InlineKeyboardMarkup(
             [
                 [
@@ -35,8 +35,7 @@ async def cbstart(_, query: CallbackQuery):
                     "❓ Basic Guide", callback_data="cbhowtouse")],
                 [
                     InlineKeyboardButton("📚 Commands", callback_data="cbcmds"),
-                    InlineKeyboardButton(
-                        "💝 Donate", url=f"https://t.me/{OWNER_NAME}"),
+                    InlineKeyboardButton("❤️ Donate", url=f"https://t.me/{OWNER_NAME}"),
                 ],
                 [
                     InlineKeyboardButton(
@@ -159,6 +158,7 @@ async def cbsudo(_, query: CallbackQuery):
 /leaveall - order the assistant to leave from all group
 /stats - show the bot statistic
 /rmd - remove all downloaded files
+/clear - remove all .jpg files
 /eval (query) - execute code
 /sh (query) - run code
 
@@ -196,8 +196,11 @@ async def cbguide(_, query: CallbackQuery):
 
 1.) **first, add me to your group.**
 2.) **then promote me as admin and give all permissions except anonymous admin.**
+3.) **after promoting me, type /reload in group to update the admin list.**
 3.) **add @{ASSISTANT_NAME} to your group or type /join to invite her.**
-4.) **turn on the voice chat first before start to play music.**
+4.) **turn on the video chat first before start to play music.**
+
+📌 **if the userbot not joined to video chat, make sure if the video chat already turned on, or type /leave then type /join again.**
 
 ⚡ __Powered by {BOT_NAME} A.I__""",
         reply_markup=InlineKeyboardMarkup(
@@ -294,8 +297,11 @@ async def cbguides(_, query: CallbackQuery):
 
 1.) **first, add me to your group.**
 2.) **then promote me as admin and give all permissions except anonymous admin.**
+3.) **after promoting me, type /reload in group to update the admin list.**
 3.) **add @{ASSISTANT_NAME} to your group or type /join to invite her.**
-4.) **turn on the voice chat first before start to play music.**
+4.) **turn on the video chat first before start to play music.**
+
+📌 **if the userbot not joined to video chat, make sure if the video chat already turned on, or type /leave then type /join again.**
 
 ⚡ __Powered by {BOT_NAME} A.I__""",
         reply_markup=InlineKeyboardMarkup(
@@ -378,6 +384,7 @@ async def cblab(_, query: CallbackQuery):
 /leaveall - order the assistant to leave from all group
 /stats - show the bot statistic
 /rmd - remove all downloaded files
+/clear - remove all .jpg files
 /eval (query) - execute code
 /sh (query) - run code
 

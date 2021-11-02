@@ -109,7 +109,7 @@ async def resume(_, message: Message):
         )
 
 
-@Client.on_message(command(["end", f"end@{BOT_USERNAME}"]) & other_filters)
+@Client.on_message(command(["end", f"end@{BOT_USERNAME}", "stop", f"end@{BOT_USERNAME}"]) & other_filters)
 @errors
 @authorized_users_only
 async def stop(_, message: Message):
@@ -126,7 +126,7 @@ async def stop(_, message: Message):
         await message.reply_text("✅ **music playback has ended**")
 
 
-@Client.on_message(command(["skip", f"skip@{BOT_USERNAME}"]) & other_filters)
+@Client.on_message(command(["skip", f"skip@{BOT_USERNAME}", "next", f"next@{BOT_USERNAME}"]) & other_filters)
 @errors
 @authorized_users_only
 async def skip(_, message: Message):
@@ -296,3 +296,15 @@ async def cbskip(_, query: CallbackQuery):
     await query.edit_message_text(
         "⏭ **You've skipped to the next song**", reply_markup=BACK_BUTTON
     )
+
+
+@Client.on_message(command(["volume", f"volume@{BOT_USERNAME}"]) & other_filters)
+@authorized_users_only
+async def change_volume(client, message):
+    range = message.command[1]
+    chat_id = message.chat.id
+    try:
+       callsmusic.pytgcalls.change_volume_call(chat_id, volume=int(range))
+       await message.reply(f"✅ **volume set to:** ```{range}%```")
+    except Exception as e:
+       await message.reply(f"**error:** {e}")

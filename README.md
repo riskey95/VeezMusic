@@ -34,12 +34,10 @@
 
 - Thumbnail Support
 - Playlist Support
-- Showing track names when skipping
 - Youtube, Local playback support
 - Settings panel
 - Control with buttons
 - Userbot auto join
-- Channel Music Play
 - Keyboard selection support for youtube play
 - Lyrics Scrapper
 - Unlimited Queue
@@ -88,7 +86,7 @@
 ## 🔎 Inline Search Support
 - just type the bot username in any chat, example: "`@VeezMusicBot Faded Alan Walker`", then bot will give you a results of the query you search in inline mode.
 
-## Heroku Deployment 💜
+## Heroku Deployment <img src="./etc/Kenpurple.gif" width="40px">
 The easy way to host this bot, deploy to Heroku, Change the app country to Europe (it will help to make the bot stable).
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/levina-lab/veezmusic)
